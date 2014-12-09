@@ -24,8 +24,7 @@ class OBJ:
 
     ## affichage du contenu de l'objet
     def afficherOBJ(self):
-        str_abr = self.abr.afficherABR()## appel de l'affichage d'un ABR
-        str_abr = str_abr[:len(str_abr)-1]## supprime le dernier caractère de la chaine de caractère
+        str_abr = self.abr.afficher()## appel de l'affichage d'un ABR
         return str(self.debut)+':'+str(self.fin)+';'+str_abr ##concaténation du resultat
 
     ## redefinition de la fonction print 
@@ -36,11 +35,12 @@ class OBJ:
 class TABR:
     """
     Définition de la classe TABR = tableau d'ABR.
+    Chaque indice représente un type OBJ.
     """
-    
+
     tab = []
     ## fonction permettant de lire le contenu d'un fichier externe contenant la description
-    ## d'un TABR sous la forme 1:2;1:2 (debut:fin;arbre)
+    ## d'un TABR sous la forme 1:5;1:3:4 (debut:fin;arbre)
     def lireFichier(self):
         if TABR.tab != []:
             TABR.tab = []
@@ -51,7 +51,7 @@ class TABR:
             valAinserer = valABR.split(':')
             obj = OBJ(debut,fin)
             for i in reversed(valAinserer):
-                obj.abr.insererABR(int(i))
+                obj.abr.inserer(int(i))
             TABR.tab.append(obj)
         f.close()
 
@@ -80,7 +80,7 @@ class TABR:
                 val = random.sample(range(debut,fin),random.randint(1,fin-debut))
                 obj = OBJ(debut,fin)
                 for j in val:
-                    obj.abr.insererABR(int(j))
+                    obj.abr.inserer(int(j))
                 TABR.tab.append(obj)                
 
 
@@ -94,7 +94,7 @@ class TABR:
                     return "Non TABR"
                 else:
                     a = obj.fin
-                chaine = obj.abr.afficherABR().split(':')
+                chaine = obj.abr.afficher().split(':')
                 for valeur in chaine[:len(chaine)-1]:
                     if int(valeur) < obj.debut or int(valeur) > obj.fin:
                         return "Non TABR"
@@ -113,15 +113,15 @@ class TABR:
     def insererEntier(self,x):
         for obj in TABR.tab:
             if obj.debut < x and obj.fin > x:
-                obj.abr.insererABR(x)
+                obj.abr.inserer(x)
 
     ## supprime x dans le TABR si il existe
     def supprimerEntier(self,x):
         res = "x impossible dans les intervalles debut/fin"
         for obj in TABR.tab:
             if x > obj.debut and x < obj.fin:
-                if obj.abr.estpresent(x) == True :
-                    obj.abr.supprimerABR(x)
+                if obj.abr.estPresent(x) == True :
+                    obj.abr.supprimer(x)
                     res="Valeur "+str(x)+" supprimé"
                 else:
                     res = "x non présent dans l'ABR"
@@ -131,12 +131,12 @@ class TABR:
     ## sont ajouté dans i
     def fusionTABR(self,i):
         if i < len(TABR.tab):
-            str_abr = TABR.tab[i+1].abr.afficherABR()
+            str_abr = TABR.tab[i+1].abr.afficher()
             elem = str_abr.split(':')
             elem = elem[:len(elem)-1]
             TABR.tab[i].fin = TABR.tab[i+1].fin ## mise à jour de l'interval
             for valeur in elem: ## insertion des élément i+1 dans i
-                TABR.tab[i].abr.insererABR(int(valeur))
+                TABR.tab[i].abr.inserer(int(valeur))
             TABR.tab.pop(i+1) ## suppression de l'objet en case i+1
 
     ## renvoie un ABR à partir du TABR courant
@@ -144,11 +144,11 @@ class TABR:
         A = abr.ABR()
         if TABR.tab != []:
             for obj in TABR.tab:
-                str_abr = obj.abr.afficherABR()
+                str_abr = obj.abr.afficher()
                 elem = str_abr.split(':')
                 elem = elem[:len(elem)-1]
                 for val in elem:
-                    A.insererABR(val)
+                    A.inserer(val)
         return A
 
     ## renvoie un TABR à partir de l'ABR courant
@@ -165,32 +165,7 @@ class TABR:
         TABR.tab = []
 
 
-A = abr.ABR()
 T = TABR()
-T.lireFichier()
-print("lecture fichier :\n\n")
-print(T)
-print("vérification tabr : ")
-print(T.verification())
-T.fusionTABR(2)
-print("verification fusion :\n")
-print(T)
-print(T.supprimerEntier(2))
-print("vérification suppression :\n")
-print(T)
-T.tabrAleatoire(3,50)
-print("tabr aléatoire :\n\n")
-print(T)
-print("vérification tabr :\n\n")
-print(T.verification())
-print(T)
-A = T.TABRversABR()
-print(A)
+T.tabrAleatoire(5, 11)
+print T
 del T
-del A
-
-
-# T.ecrireFichier("","exportABR.txt")
-# del T
-# T = TABR()
-# print(T)
