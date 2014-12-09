@@ -1,4 +1,4 @@
-﻿#! /usr/bin/env python
+#! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
 
@@ -97,16 +97,6 @@ class ABR:
             else:
                 return True
         return res
-
-    ##affiche un abre verticalement afin de visualiser sa profondeur              
-    def afficherModeArbre(self,x):         
-        if self.sag:            
-            self.sag.afficherModeArbre(x-1)
-        print(2*x*" ",end="") 
-        print("-",self.val)
-        if self.sad:
-            self.sad.afficherModeArbre(x-1)
-        return ""
     
     ##affiche l'arbre binaire de recherche courant sous forme de chaine de caratère
     ##chaque élément est séparer par un ':' et le parcours de l'affichage est postfixe

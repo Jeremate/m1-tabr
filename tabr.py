@@ -4,6 +4,7 @@
 import abr
 import random
 import time
+import os
 
 
 ##definition la classe objet qui remplira chaque case du tableau TABR
@@ -29,19 +30,20 @@ class TABR:
     tab = []
     ## fonction permettant de lire le contenu d'un fichier externe contenant la description
     ## d'un TABR sous la forme 1:2;1:2 (debut:fin;arbre)
-    def lireFichier(self):
-        if TABR.tab != []:
-            TABR.tab = []
-        f = open('fichier.txt','r')
-        for ligne in f:
-            indiceDF,valABR = ligne.split(';')
-            debut,fin = indiceDF.split(':')
-            valAinserer = valABR.split(':')
-            obj = OBJ(debut,fin)
-            for i in reversed(valAinserer):
-                obj.abr.insererABR(int(i))
-            TABR.tab.append(obj)
-        f.close()
+    def lireFichier(self,path):
+        if os.path.exists(path):
+            f = open(path,'r')
+            for ligne in f:
+                indiceDF,valABR = ligne.split(';')
+                debut,fin = indiceDF.split(':')
+                valAinserer = valABR.split(':')
+                obj = OBJ(debut,fin)
+                for i in reversed(valAinserer):
+                    obj.abr.insererABR(int(i))
+                TABR.tab.append(obj)
+            f.close()
+        else:
+            print "fichier inconnu"
 
     ## fonction d'insertion d'un TABR dans un fichier text
     def ecrireFichier(self,adresse,nom):
@@ -168,9 +170,9 @@ class TABR:
 ##print(T)
 ##A = T.TABRversABR()
 ##print(A)
-
-
-#T.ecrireFichier("","exportABR.txt")
+##
+##
+##T.ecrireFichier("","exportABR.txt")
 ##del T
 ##T = TABR()
 ##print(T)
