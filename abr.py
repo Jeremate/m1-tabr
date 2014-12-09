@@ -1,18 +1,32 @@
 #! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-
-##classe arbre binaire de recherche
+# TODO :
+# - test si ABR sans doublons
+# - test si ABR non filiforme
 
 class ABR:
+    """
+    Classe ABR représentant un arbre binaire de recherche.
+    Pour rappel, les propriétés d'un ABR sont les suivantes :
+        - les éléments contenus dans les noeuds du sag sont tous inférieurs ou égaux à val
+        - les éléments contenus dans les noeuds du sad sont tous supérieurs à val
+
+    Attributs :
+        - val : entier - valeur du noeud
+        - sag : ABR - le sous arbre gauche
+        - sad : ABR - le sous arbre droit
+    """
+
     ##fonction d'initialisation
     def __init__(self):
         self.val = None ##valeur du noeud - initialiser à vide
         self.sag = None ##sous arbre gauche - initialiser à vide
         self.sad = None ##sous arbre droit - initialiser à vide
 
-    ##fonction qui insère un élément x dans l'arbre binaire de recherche courant
-    def insererABR(self, x):
+    ## fonction qui insère un élément x dans l'arbre binaire de recherche courant
+    ## l'ABR ne possède pas de doublons grâce à l'utilisation des inégalités strictes
+    def inserer(self, x):
         res = True
         if self.val is None:
             self.val = x
@@ -20,11 +34,11 @@ class ABR:
             if x < self.val:
                 if self.sag is None:
                     self.sag = ABR()
-                self.sag.insererABR(x)
+                self.sag.inserer(x)
             elif x > self.val:
                 if self.sad is None:
                     self.sad = ABR()
-                self.sad.insererABR(x)
+                self.sad.inserer(x)
             else:
                 res = False
         return res
@@ -43,20 +57,20 @@ class ABR:
                 self.sad = None
         return y
 
-    ##focntion de suppression d'un élément x de l'abre binaire de recherche courant
-    def supprimerABR(self,x):
+    ##fonction de suppression d'un élément x de l'abre binaire de recherche courant
+    def supprimer(self,x):
         a = False
         if self is not None:
             ## un seul fils à gauche
             if x < self.val:
-                a = self.sag.supprimerABR(x)
+                a = self.sag.supprimer(x)
                 if a:
                     self.sag=None
                     a = False
             else:
                 ##un seul fils à droite
                 if x > self.val:
-                    a = self.sad.supprimerABR(x)
+                    a = self.sad.supprimer(x)
                     if a:
                         self.sad = None
                         a = False
@@ -87,29 +101,31 @@ class ABR:
                             self.val = y
 
     ##retourne vrai si l'élément x est dans l'arbre binaire de recherche courant
-    def estpresent(self,x):
+    def estPresent(self,x):
         res = False
-        if self:           
+        if self:          
             if x > self.val and self.sad:
-                res = self.sad.estpresent(x)
+                res = self.sad.estPresent(x)
             elif x < self.val and self.sag:
-                res = self.sag.estpresent(x)
-            else:
-                return True
+                res = self.sag.estPresent(x)
+            elif self.val == x:
+                res = True
         return res
     
     ##affiche l'arbre binaire de recherche courant sous forme de chaine de caratère
-    ##chaque élément est séparer par un ':' et le parcours de l'affichage est postfixe
-    def afficherABR(self,res=""):
+    ##chaque élément est séparer par un ':' et le parcours de l'affichage est suffixe
+    def afficher(self,res=""):
         if self:
             if self.sag:            
-                res = self.sag.afficherABR(res)           
+                res = self.sag.afficher(res)           
             if self.sad:
-                res = self.sad.afficherABR(res)
-            res = res + str(self.val) + ':'
+                res = self.sad.afficher(res)
+            if res:
+                res += ':' + str(self.val)
+            else:
+                res = str(self.val)
         return res
 
-    ##redefinition de la fonction print de python afin d'utiliser la fonction afficherABR()
+    ##redefinition de la fonction print de python en utilisant la fonction afficher()
     def __str__(self):
-        return self.afficherABR()
-
+        return self.afficher()
