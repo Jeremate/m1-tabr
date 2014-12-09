@@ -1,10 +1,23 @@
 ﻿#! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-
-##classe arbre binaire de recherche
+# TODO :
+# - test si ABR sans doublons
+# - test si ABR non filiforme
 
 class ABR:
+    """
+    Classe ABR représentant un arbre binaire de recherche.
+    Pour rappel, les propriétés d'un ABR sont les suivantes :
+        - les éléments contenus dans les noeuds du sag sont tous inférieurs ou égaux à val
+        - les éléments contenus dans les noeuds du sad sont tous supérieurs à val
+
+    Attributs :
+        - val : entier - valeur du noeud
+        - sag : ABR - le sous arbre gauche
+        - sad : ABR - le sous arbre droit
+    """
+
     ##fonction d'initialisation
     def __init__(self):
         self.val = None ##valeur du noeud - initialiser à vide
@@ -102,7 +115,7 @@ class ABR:
     def afficherModeArbre(self,x):         
         if self.sag:            
             self.sag.afficherModeArbre(x-1)
-        print(2*x*" ",end="") 
+        print(2*x*" ")
         print("-",self.val)
         if self.sad:
             self.sad.afficherModeArbre(x-1)

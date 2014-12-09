@@ -6,8 +6,16 @@ import random
 import time
 
 
-##definition la classe objet qui remplira chaque case du tableau TABR
 class OBJ:
+    """
+    Classe OBJ représentant chaque case de TABR.
+
+    Attributs :
+        - debut : Entier - valeur dé début de l'intervalle
+        - fin : Entier - valeur de fin de l'intervalle
+        - abr : ABR - ABR sans doublons dont tous les éléments se situent dans l'intervalle fermé
+    """
+
     ## initialisation d'un objet
     def __init__(self,debut=None,fin=None):
         self.debut = int(debut) ##debut de la case
@@ -24,8 +32,12 @@ class OBJ:
     def __str__(self):
         return self.afficherOBJ()
 
-## définition de la classe TABR qui remplira    
+  
 class TABR:
+    """
+    Définition de la classe TABR = tableau d'ABR.
+    """
+    
     tab = []
     ## fonction permettant de lire le contenu d'un fichier externe contenant la description
     ## d'un TABR sous la forme 1:2;1:2 (debut:fin;arbre)
@@ -153,24 +165,32 @@ class TABR:
         TABR.tab = []
 
 
-##A = abr.ABR()
-##T = TABR()
-##T.lireFichier()
-##print("lecture fichier :\n\n",T)
-##print("vérification tabr : ",T.verification())
-##T.fusionTABR(2)
-##print("verification fusion :\n",T)
-##print(T.supprimerEntier(2))
-##print("vérification suppression :\n",T)
-##T.tabrAleatoire(3,50)
-##print("tabr aléatoire :\n\n",T)
-##print("vérification tabr :\n\n",T.verification())
-##print(T)
-##A = T.TABRversABR()
-##print(A)
+A = abr.ABR()
+T = TABR()
+T.lireFichier()
+print("lecture fichier :\n\n")
+print(T)
+print("vérification tabr : ")
+print(T.verification())
+T.fusionTABR(2)
+print("verification fusion :\n")
+print(T)
+print(T.supprimerEntier(2))
+print("vérification suppression :\n")
+print(T)
+T.tabrAleatoire(3,50)
+print("tabr aléatoire :\n\n")
+print(T)
+print("vérification tabr :\n\n")
+print(T.verification())
+print(T)
+A = T.TABRversABR()
+print(A)
+del T
+del A
 
 
-#T.ecrireFichier("","exportABR.txt")
-##del T
-##T = TABR()
-##print(T)
+# T.ecrireFichier("","exportABR.txt")
+# del T
+# T = TABR()
+# print(T)
