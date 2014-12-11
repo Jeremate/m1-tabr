@@ -51,15 +51,15 @@ class TABR:
                 valAinserer = valABR.split(':')
                 obj = OBJ(debut,fin)
                 for i in reversed(valAinserer):
-                    obj.abr.insererABR(int(i))
+                    obj.abr.inserer(int(i))
                 TABR.tab.append(obj)
             f.close()
         else:
             print "fichier inconnu"
 
     ## fonction d'insertion d'un TABR dans un fichier text
-    def ecrireFichier(self,adresse,nom):
-        f = open(adresse+nom,'w')
+    def ecrireFichier(self,path):
+        f = open(path,'w')
         f.write(self.afficherTABR())
         f.close()
 
@@ -112,16 +112,18 @@ class TABR:
         return res    
 
     ## insère x dans le TABR si un interval debut|fin le permet
-    def insererEntier(self,x):
+    def inserer(self,x):
+        res = False
         for obj in TABR.tab:
-            if obj.debut < x and obj.fin > x:
-                obj.abr.inserer(x)
+            if obj.debut <= x and obj.fin >= x:
+                res = obj.abr.inserer(x)
+        return res
 
     ## supprime x dans le TABR si il existe
-    def supprimerEntier(self,x):
+    def supprimer(self,x):
         res = "x impossible dans les intervalles debut/fin"
         for obj in TABR.tab:
-            if x > obj.debut and x < obj.fin:
+            if x >= obj.debut and x <= obj.fin:
                 if obj.abr.estPresent(x) == True :
                     obj.abr.supprimer(x)
                     res="Valeur "+str(x)+" supprimé"
