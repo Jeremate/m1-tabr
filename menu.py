@@ -97,11 +97,11 @@ while True:
                     else:
                         print x," n'a pas pu être supprimé"
             elif selection == '3':
-                print(menu2[selection])
+                print(menu2[int(selection)])
             elif selection == '4':
-                print(menu[selection])
+                print(menu2[int(selection)])
             elif selection == '5':
-                print(menu[selection])
+                print(menu2[int(selection)])
             elif selection == '6':
                 break
             else:
