@@ -155,8 +155,20 @@ class TABR:
                     A.inserer(val)
         return A
 
-    ## renvoie un TABR à partir de l'ABR courant
-    def ABRversTABR(self):
+    def ABRversTABR(self, A, k):
+        """Renvoie un TABR à partir de l'ABR courant"""
+        
+        k = 0
+        while k < 1:
+            k = raw_input("Saisir le nombre d'intervalles : ")
+            if k.isdigit():
+                k = int(k)
+
+        print "Renseigner les bornes max de chaque intervalle."
+        for i in range(1, k):
+            borne = raw_input("\t- Intervalle " + str(i) + " : ")
+            print borne
+
         return 0
     
     ## redifition de la fonction print afin de pouvoir utiliser notre propre
@@ -169,11 +181,17 @@ class TABR:
         TABR.tab = []
 
 
-##A = abr.ABR()
-##T = TABR()
-##T.lireFichier()
-##print("lecture fichier :\n\n",T)
-##print("vérification tabr : ",T.verification())
+A = abr.ABR()
+T = TABR()
+T.lireFichier("fichier.txt")
+print("lecture fichier :\n\n",T)
+print("vérification tabr : ",T.verification())
+A.inserer(3)
+A.inserer(2)
+A.inserer(4)
+T.ABRversTABR(A, 3)
+del A
+del T
 ##T.fusionTABR(2)
 ##print("verification fusion :\n",T)
 ##print(T.supprimerEntier(2))
