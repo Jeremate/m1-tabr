@@ -18,9 +18,8 @@ menu2.append("Fusion de deux cases du TABR")
 menu2.append("ABR vers TABR")
 menu2.append("TABR vers ABR")
 menu2.append("Exit")
-
+courant = tabr.TABR()
 while True:
-    courant = tabr.TABR()
     print("1 - Génération, sauvegarde et affichage de TABR")
     print("2 - Manipulation de TABR")
     print("3 - Exit")
@@ -40,13 +39,16 @@ while True:
                 else:
                     print "Erreur path"
             elif selection == '2':
-                adresse = raw_input("Adresse où enregistrer le fichier :")
-                nom = raw_input("Nom du fichier :")
-                if os.path.exists(adresse):
-                    courant.ecrireFichier(adresse,nom)
-                    print "Fichier enregistrer"
+                path = raw_input("Indiquer le chemin du fichier fichier :")
+                if "/" in path:
+                    if os.path.exists(path):
+                        courant.ecrireFichier(path)
+                        print "Fichier enregistrer"
+                    else:
+                        print "Path invalide!"
                 else:
-                    print "Erreur path"
+                    courant.ecrireFichier(path)
+                    print "Fichier enregistrer"
             elif selection == '3':
                 if courant.tab != []:
                     print courant
@@ -77,15 +79,29 @@ while True:
                 print i+1,'-',menu2[i]
             selection = raw_input("Sélectionner action:")
             if selection == '1':
-                x 
+                x = raw_input("Indiquer l'entier à insérer:")
+                if courant == []:
+                    print "TABR courant vide, impossible d'insérer"
+                else:
+                    if courant.inserer(int(x)):
+                        print x," inséré"
+                    else:
+                        print x," n'a pas pu être inséré"
             elif selection == '2':
-                print(menu2[selection])
+                x = raw_input("Indiquer l'entier à supprimer:")
+                if courant == []:
+                    print "TABR courant vide, impossible d'supprimé"
+                else:
+                    if courant.supprimer(int(x)):
+                        print x," supprimé"
+                    else:
+                        print x," n'a pas pu être supprimé"
             elif selection == '3':
-                print(menu2[selection])
+                print(menu2[int(selection)])
             elif selection == '4':
-                print(menu[selection])
+                print(menu2[int(selection)])
             elif selection == '5':
-                print(menu[selection])
+                print(menu2[int(selection)])
             elif selection == '6':
                 break
             else:
