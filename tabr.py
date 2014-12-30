@@ -97,7 +97,7 @@ class TABR:
                 else:
                     a = obj.fin
                 chaine = obj.abr.afficher().split(':')
-                for valeur in chaine[:len(chaine)-1]:
+                for valeur in chaine:
                     if int(valeur) < obj.debut or int(valeur) > obj.fin:
                         return "Non TABR"
             res = "TABR valide"
