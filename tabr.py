@@ -6,6 +6,8 @@ import random
 import time
 import os
 
+# TODO JK :
+# - faire les tests
 
 class OBJ:
     """
@@ -17,19 +19,21 @@ class OBJ:
         - abr : ABR - ABR sans doublons dont tous les éléments se situent dans l'intervalle fermé
     """
 
-    ## initialisation d'un objet
     def __init__(self,debut=None,fin=None):
+        """Initialisation d'un objet"""
         self.debut = int(debut) ##debut de la case
         self.fin = int(fin) ##fin de la case
         self.abr = abr.ABR() ##arbre binaire de recherche de la case
 
-    ## affichage du contenu de l'objet
+    
     def afficherOBJ(self):
+        """Affichage du contenu de l'objet"""
         str_abr = self.abr.afficher()## appel de l'affichage d'un ABR
         return str(self.debut)+':'+str(self.fin)+';'+str_abr ##concaténation du resultat
 
-    ## redefinition de la fonction print 
+     
     def __str__(self):
+        """redefinition de la fonction print"""
         return self.afficherOBJ()
 
   
@@ -156,20 +160,52 @@ class TABR:
         return A
 
     def ABRversTABR(self, A, k):
-        """Renvoie un TABR à partir de l'ABR courant"""
-        
+        """Renvoie un TABR à partir de l'ABR courant
+        TODO :
+        - verif bornes max
+        """
+        TABR.tab = []
+        abr_str = A.afficher()
+        list_val = abr_str.split(':')
+        list_val.sort(key=int) # tri par ordre croissant
+
         k = 0
-        while k < 1:
+        while k < 1 or k > len(list_val):
             k = raw_input("Saisir le nombre d'intervalles : ")
             if k.isdigit():
                 k = int(k)
+            else:
+                k = 0
 
         print "Renseigner les bornes max de chaque intervalle."
         for i in range(1, k):
             borne = raw_input("\t- Intervalle " + str(i) + " : ")
-            print borne
+            if borne.isdigit():
+                borne = int(borne)
 
-        return 0
+                # cas particulier de la première borne (=min de l'ABR)
+                if (i == 1):
+                    deb = int(list_val[0])
+                else:
+                    deb = int(next(val for val in list_val if int(val) > borne_prec))
+                print deb, borne
+                obj = OBJ(deb, borne)
+                for val in [val for val in list_val if int(val) >= deb and int(val) <= borne]:
+                    obj.abr.inserer(int(val))
+                TABR.tab.append(obj)
+
+                borne_prec = borne # mémorisation de la borne précédente
+         
+        # cas particuluer de la dernière borne (=max de l'ABR)
+        deb = int(next(val for val in list_val if int(val) > borne_prec))
+        fin = int(list_val[len(list_val)-1])
+        print "Intervalle " + str(k)
+        print deb, fin
+        obj = OBJ(deb, fin)
+        for val in [val for val in list_val if int(val) >= deb]:
+            obj.abr.inserer(int(val))
+        TABR.tab.append(obj)
+
     
     ## redifition de la fonction print afin de pouvoir utiliser notre propre
     ## fonction d'affichage
@@ -183,13 +219,18 @@ class TABR:
 
 A = abr.ABR()
 T = TABR()
-T.lireFichier("fichier.txt")
-print("lecture fichier :\n\n",T)
-print("vérification tabr : ",T.verification())
+# T.lireFichier("fichier.txt")
+# print("lecture fichier :\n\n",T)
+# print("vérification tabr : ",T.verification())
+A.inserer(9)
+A.inserer(6)
 A.inserer(3)
-A.inserer(2)
-A.inserer(4)
-T.ABRversTABR(A, 3)
+A.inserer(7)
+A.inserer(12)
+print A
+T.ABRversTABR(A, 2)
+print("vérification tabr : ",T.verification())
+print T
 del A
 del T
 ##T.fusionTABR(2)
