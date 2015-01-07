@@ -179,22 +179,30 @@ class TABR:
 
         print "Renseigner les bornes max de chaque intervalle."
         for i in range(1, k):
-            borne = raw_input("\t- Intervalle " + str(i) + " : ")
-            if borne.isdigit():
-                borne = int(borne)
-
-                # cas particulier de la première borne (=min de l'ABR)
-                if (i == 1):
-                    deb = int(list_val[0])
+            borne = 0
+            borne_prec = borne
+            # vérfication de la saisie de la borne
+            while borne < 1 or borne < borne_prec:
+                borne = raw_input("\t- Intervalle " + str(i) + " : ")
+                if borne.isdigit():
+                    borne = int(borne)
+                    # la borne supérieure doit être inférieure au max de l'ABR
+                    # la borne
+                    # if borne > list_val[len(list_val)-1]
                 else:
-                    deb = int(next(val for val in list_val if int(val) > borne_prec))
-                print deb, borne
-                obj = OBJ(deb, borne)
-                for val in [val for val in list_val if int(val) >= deb and int(val) <= borne]:
-                    obj.abr.inserer(int(val))
-                TABR.tab.append(obj)
+                    borne = 0
+            # cas particulier de la première borne (=min de l'ABR)
+            if (i == 1):
+                deb = int(list_val[0])
+            else:
+                deb = int(next(val for val in list_val if int(val) > borne_prec))
+            # print deb, borne
+            obj = OBJ(deb, borne)
+            for val in [val for val in list_val if int(val) >= deb and int(val) <= borne]:
+                obj.abr.inserer(int(val))
+            TABR.tab.append(obj)
 
-                borne_prec = borne # mémorisation de la borne précédente
+            borne_prec = borne # mémorisation de la borne précédente
          
         # cas particuluer de la dernière borne (=max de l'ABR)
         deb = int(next(val for val in list_val if int(val) > borne_prec))
