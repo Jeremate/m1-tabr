@@ -160,10 +160,7 @@ class TABR:
         return A
 
     def ABRversTABR(self, A, k):
-        """Renvoie un TABR à partir de l'ABR courant
-        TODO :
-        - verif bornes max
-        """
+        """Renvoie un TABR à partir de l'ABR courant"""
         TABR.tab = []
         abr_str = A.afficher()
         list_val = abr_str.split(':')
@@ -186,10 +183,13 @@ class TABR:
                 borne = raw_input("\t- Intervalle " + str(i) + " : ")
                 if borne.isdigit():
                     borne = int(borne)
-                    # la borne supérieure doit être inférieure au max de l'ABR
-                    # la borne
-                    # if borne > list_val[len(list_val)-1]
+                    # la borne supérieure doit être inférieure au max de l'ABR et supérieure au min
+                    # la borne supérieure de l'intervalle courant doit laisser au moins une valeur pour les prochains intervalles
+                    if borne < int(list_val[0]) or borne > int(list_val[len(list_val)-1]) or k-i > len([val for val in list_val if int(val) > borne]):
+                        print "Borne invalide"
+                        borne = 0
                 else:
+                    print "Borne invalide"
                     borne = 0
             # cas particulier de la première borne (=min de l'ABR)
             if (i == 1):
