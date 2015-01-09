@@ -15,4 +15,9 @@ par les pointeurs T [i].arbre sont également des entiers.
 Exécution
 ---------
 1) Se rendre dans le répertoire des sources : cd sources/
-2) exécuter la commande suivante : python menu.py
+2) Exécuter la commande suivante : python menu.py
+
+Utilisation
+-----------
+La navigation dans le menu se fait à l'aide des numéros précédant chaque ligne.
+Une ligne correspond à une action réalisable sur le TABR.

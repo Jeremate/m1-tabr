@@ -19,6 +19,7 @@ menu2.append("ABR vers TABR")
 menu2.append("TABR vers ABR")
 menu2.append("Exit")
 courant = tabr.TABR()
+
 while True:
     print("1 - Génération, sauvegarde et affichage de TABR")
     print("2 - Manipulation de TABR")
