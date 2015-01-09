@@ -226,22 +226,22 @@ class TABR:
         TABR.tab = []
 
 
-A = abr.ABR()
-T = TABR()
-# T.lireFichier("fichier.txt")
+##A = abr.ABR()
+##T = TABR()
+## T.lireFichier("fichier.txt")
 # print("lecture fichier :\n\n",T)
 # print("vérification tabr : ",T.verification())
-A.inserer(9)
-A.inserer(6)
-A.inserer(3)
-A.inserer(7)
-A.inserer(12)
-print A
-T.ABRversTABR(A)
-print("vérification tabr : ",T.verification())
-print T
-del A
-del T
+##A.inserer(9)
+##A.inserer(6)
+##A.inserer(3)
+##A.inserer(7)
+##A.inserer(12)
+##print A
+##T.ABRversTABR(A)
+##print("vérification tabr : ",T.verification())
+##print T
+##del A
+##del T
 ##T.fusionTABR(2)
 ##print("verification fusion :\n",T)
 ##print(T.supprimerEntier(2))
