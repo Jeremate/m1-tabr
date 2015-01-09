@@ -24,12 +24,12 @@ while True:
     print("1 - Génération, sauvegarde et affichage de TABR")
     print("2 - Manipulation de TABR")
     print("3 - Exit")
-    selection = raw_input("Sélectionner action:")
+    selection = raw_input("Sélectionner action :")
     if selection == '1':
         while True:
             for i in range(0,len(menu)):
                 print i+1,'-',menu[i]
-            selection = raw_input("Sélectionner action:")
+            selection = raw_input("Sélectionner action :")
             if selection == '1':
                 path = raw_input("Path du fichier :")
                 if os.path.exists(path):
@@ -80,27 +80,43 @@ while True:
                 print i+1,'-',menu2[i]
             selection = raw_input("Sélectionner action:")
             if selection == '1':
-                x = raw_input("Indiquer l'entier à insérer:")
-                if courant == []:
+                if courant.tab == []:
                     print "TABR courant vide, impossible d'insérer"
                 else:
-                    if courant.inserer(int(x)):
-                        print x," inséré"
+                    x = raw_input("Indiquer l'entier à insérer:")
+                    if x.isdigit():
+                        if courant.inserer(int(x)):
+                            print x," inséré"
+                        else:
+                            print x," n'a pas pu être inséré"
                     else:
-                        print x," n'a pas pu être inséré"
+                        print x, " n'est pas un entier."   
             elif selection == '2':
-                x = raw_input("Indiquer l'entier à supprimer:")
-                if courant == []:
-                    print "TABR courant vide, impossible d'supprimé"
+                if courant.tab == []:
+                    print "TABR courant vide, impossible d'insérer"
                 else:
-                    if courant.supprimer(int(x)):
-                        print x," supprimé"
+                    x = raw_input("Indiquer l'entier à supprimer:")
+                    if x.isdigit():
+                        if courant.supprimer(int(x)):
+                            print x," supprimé"
+                        else:
+                            print x," n'a pas pu être supprimé"
                     else:
-                        print x," n'a pas pu être supprimé"
+                        print x, " n'est pas un entier."
             elif selection == '3':
-                print(menu2[int(selection)])
+                if courant.tab == []:
+                    print "TABR courant vide, impossible de supprimer"
+                else:
+                    x = raw_input("Indiquer la case à fusionner:")
+                    if x.isdigit():
+                        courant.fusionTABR(int(x))
+                    else:
+                        print x, " n'est pas un entier."
             elif selection == '4':
-                print(menu2[int(selection)])
+                if courant.tab == []:
+                    print "TABR courant vide, impossible de supprimer"
+                else:
+                    courant.TABRversABR()
             elif selection == '5':
                 print(menu2[int(selection)])
             elif selection == '6':

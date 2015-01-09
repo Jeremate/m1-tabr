@@ -45,15 +45,25 @@ class TABR:
     ## d'un TABR sous la forme 1:2;1:2 (debut:fin;arbre)
     def lireFichier(self,path):
         if os.path.exists(path):
+            TABR.tab=[]
+            test = False
             f = open(path,'r')
             for ligne in f:
                 indiceDF,valABR = ligne.split(';')
                 debut,fin = indiceDF.split(':')
+                valABR = valABR.strip()
                 valAinserer = valABR.split(':')
                 obj = OBJ(debut,fin)
                 for i in reversed(valAinserer):
                     obj.abr.inserer(int(i))
+                if obj.abr.afficher() != valABR:
+                    print "La ligne ",i ,"ne contient pas un ABR correct"
+                    test = True
                 TABR.tab.append(obj)
+            if test:
+                choix = raw_input("Voulez vous conservez le TABR et garder les entrées debut:fin ayant un abr incorrect ?")
+                if selection not in ["Oui","OUI","oui","O","o","y","Yes","Yes"]:
+                    TABR.tab = []
             f.close()
         else:
             print "fichier inconnu"
@@ -68,8 +78,6 @@ class TABR:
     ## n le nombre de case du TABR
     ## m le nombre fin de l'interval TABR[n]
     def tabrAleatoire(self,n,m):
-        if TABR.tab != []:
-            TABR.tab = []
         ## permet de crée les intervals debut|fin de chaque case
         b = random.sample(range(2,m-1),(n-1)*2)## retourne un ensemble d'element de taille (n-1)*1 comprit entre les éléments 2 et m-1
         b.append(1)
@@ -98,7 +106,7 @@ class TABR:
                 else:
                     a = obj.fin
                 chaine = obj.abr.afficher().split(':')
-                for valeur in chaine[:len(chaine)-1]:
+                for valeur in chaine:
                     if int(valeur) < obj.debut or int(valeur) > obj.fin:
                         return "Non TABR"
             res = "TABR valide"
@@ -138,7 +146,6 @@ class TABR:
         if i < len(TABR.tab):
             str_abr = TABR.tab[i+1].abr.afficher()
             elem = str_abr.split(':')
-            elem = elem[:len(elem)-1]
             TABR.tab[i].fin = TABR.tab[i+1].fin ## mise à jour de l'interval
             for valeur in elem: ## insertion des élément i+1 dans i
                 TABR.tab[i].abr.inserer(int(valeur))
@@ -151,7 +158,7 @@ class TABR:
             for obj in TABR.tab:
                 str_abr = obj.abr.afficher()
                 elem = str_abr.split(':')
-                elem = elem[:len(elem)-1]
+                elem = elem[:len(elem)]
                 for val in elem:
                     A.inserer(val)
         return A
@@ -229,6 +236,7 @@ T = TABR()
 # T.lireFichier("fichier.txt")
 # print("lecture fichier :\n\n",T)
 # print("vérification tabr : ",T.verification())
+
 A.inserer(9)
 A.inserer(6)
 A.inserer(3)
