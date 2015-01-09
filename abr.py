@@ -1,8 +1,7 @@
 #! /usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-# TODO :
-# - test si ABR sans doublons
+# TODO JK :
 # - test si ABR non filiforme
 
 class ABR:

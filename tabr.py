@@ -6,6 +6,9 @@ import random
 import time
 import os
 
+# TODO JK :
+# - faire les tests
+# - ajouter au menu la fonction ABRversTABR
 
 class OBJ:
     """
@@ -17,19 +20,21 @@ class OBJ:
         - abr : ABR - ABR sans doublons dont tous les éléments se situent dans l'intervalle fermé
     """
 
-    ## initialisation d'un objet
     def __init__(self,debut=None,fin=None):
+        """Initialisation d'un objet"""
         self.debut = int(debut) ##debut de la case
         self.fin = int(fin) ##fin de la case
         self.abr = abr.ABR() ##arbre binaire de recherche de la case
 
-    ## affichage du contenu de l'objet
+    
     def afficherOBJ(self):
+        """Affichage du contenu de l'objet"""
         str_abr = self.abr.afficher()## appel de l'affichage d'un ABR
         return str(self.debut)+':'+str(self.fin)+';'+str_abr ##concaténation du resultat
 
-    ## redefinition de la fonction print 
+     
     def __str__(self):
+        """redefinition de la fonction print"""
         return self.afficherOBJ()
 
   
@@ -162,21 +167,61 @@ class TABR:
                     A.inserer(val)
         return A
 
-    def ABRversTABR(self, A, k):
+    def ABRversTABR(self, A):
         """Renvoie un TABR à partir de l'ABR courant"""
-        
+        TABR.tab = []
+        abr_str = A.afficher()
+        list_val = abr_str.split(':')
+        list_val.sort(key=int) # tri par ordre croissant
+
         k = 0
-        while k < 1:
+        while k < 1 or k > len(list_val):
             k = raw_input("Saisir le nombre d'intervalles : ")
             if k.isdigit():
                 k = int(k)
+            else:
+                k = 0
 
         print "Renseigner les bornes max de chaque intervalle."
         for i in range(1, k):
-            borne = raw_input("\t- Intervalle " + str(i) + " : ")
-            print borne
+            borne = 0
+            borne_prec = borne
+            # vérfication de la saisie de la borne
+            while borne < 1 or borne < borne_prec:
+                borne = raw_input("\t- Intervalle " + str(i) + " : ")
+                if borne.isdigit():
+                    borne = int(borne)
+                    # la borne supérieure doit être inférieure au max de l'ABR et supérieure au min
+                    # la borne supérieure de l'intervalle courant doit laisser au moins une valeur pour les prochains intervalles
+                    if borne < int(list_val[0]) or borne > int(list_val[len(list_val)-1]) or k-i > len([val for val in list_val if int(val) > borne]):
+                        print "Borne invalide"
+                        borne = 0
+                else:
+                    print "Borne invalide"
+                    borne = 0
+            # cas particulier de la première borne (=min de l'ABR)
+            if (i == 1):
+                deb = int(list_val[0])
+            else:
+                deb = int(next(val for val in list_val if int(val) > borne_prec))
+            # print deb, borne
+            obj = OBJ(deb, borne)
+            for val in [val for val in list_val if int(val) >= deb and int(val) <= borne]:
+                obj.abr.inserer(int(val))
+            TABR.tab.append(obj)
 
-        return 0
+            borne_prec = borne # mémorisation de la borne précédente
+         
+        # cas particuluer de la dernière borne (=max de l'ABR)
+        deb = int(next(val for val in list_val if int(val) > borne_prec))
+        fin = int(list_val[len(list_val)-1])
+        print "Intervalle " + str(k)
+        print deb, fin
+        obj = OBJ(deb, fin)
+        for val in [val for val in list_val if int(val) >= deb]:
+            obj.abr.inserer(int(val))
+        TABR.tab.append(obj)
+
     
     ## redifition de la fonction print afin de pouvoir utiliser notre propre
     ## fonction d'affichage
@@ -189,11 +234,11 @@ class TABR:
 
 
 ##A = abr.ABR()
-T = TABR()
-T.lireFichier("fichier.txt")
-print T
-T.fusionTABR(0)
-print T
+##T = TABR()
+##T.lireFichier("fichier.txt")
+##print T
+##T.fusionTABR(0)
+##print T
 ##print T
 ##A = T.TABRversABR()
 ##print("lecture fichier :\n\n")
@@ -205,6 +250,21 @@ print T
 ##T.ABRversTABR(A, 3)
 ##del A
 ##del T
+# T.lireFichier("fichier.txt")
+# print("lecture fichier :\n\n",T)
+# print("vérification tabr : ",T.verification())
+##A.inserer(9)
+##A.inserer(6)
+##A.inserer(3)
+##A.inserer(7)
+##A.inserer(12)
+##print A
+##T.ABRversTABR(A)
+##print("vérification tabr : ",T.verification())
+##print T
+##del A
+##del T
+
 ##T.fusionTABR(2)
 ##print("verification fusion :\n",T)
 ##print(T.supprimerEntier(2))
