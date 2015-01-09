@@ -8,6 +8,7 @@ import os
 
 # TODO JK :
 # - faire les tests
+# - ajouter au menu la fonction ABRversTABR
 
 class OBJ:
     """
@@ -159,7 +160,7 @@ class TABR:
                     A.inserer(val)
         return A
 
-    def ABRversTABR(self, A, k):
+    def ABRversTABR(self, A):
         """Renvoie un TABR à partir de l'ABR courant"""
         TABR.tab = []
         abr_str = A.afficher()
@@ -236,7 +237,7 @@ A.inserer(3)
 A.inserer(7)
 A.inserer(12)
 print A
-T.ABRversTABR(A, 2)
+T.ABRversTABR(A)
 print("vérification tabr : ",T.verification())
 print T
 del A
