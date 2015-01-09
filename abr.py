@@ -33,11 +33,11 @@ class ABR:
             if x < self.val:
                 if self.sag is None:
                     self.sag = ABR()
-                self.sag.inserer(x)
+                res = self.sag.inserer(x)
             elif x > self.val:
                 if self.sad is None:
                     self.sad = ABR()
-                self.sad.inserer(x)
+                res = self.sad.inserer(x)
             else:
                 res = False
         return res
@@ -128,3 +128,4 @@ class ABR:
     ##redefinition de la fonction print de python en utilisant la fonction afficher()
     def __str__(self):
         return self.afficher()
+
