@@ -60,44 +60,47 @@ class ABR:
     def supprimer(self,x):
         a = False
         if self is not None:
-            ## un seul fils à gauche
-            if x < self.val:
-                a = self.sag.supprimer(x)
-                if a:
-                    self.sag=None
-                    a = False
+            if self.sag is None and self.sad is None:
+                self.val = None
             else:
-                ##un seul fils à droite
-                if x > self.val:
-                    a = self.sad.supprimer(x)
+                ## un seul fils à gauche
+                if x < self.val:
+                    a = self.sag.supprimer(x)
                     if a:
-                        self.sad = None
+                        self.sag=None
                         a = False
-                ##deux fils
                 else:
-                    if self.sag is None:
-                        if self.sad is None:
-                            return True
-                        else:
-                            aux = self.sad
+                    ##un seul fils à droite
+                    if x > self.val:
+                        a = self.sad.supprimer(x)
+                        if a:
                             self.sad = None
-                            self.val = aux.val
-                            self.sad = aux.sad
+                            a = False
+                    ##deux fils
                     else:
-                        if self.sad is None:
-                            if self.sag is None:
+                        if self.sag is None:
+                            if self.sad is None:
                                 return True
                             else:
-                                aux = self.sag
-                                self.sag = None
+                                aux = self.sad
+                                self.sad = None
                                 self.val = aux.val
-                                self.sag = aux.sag
-                        ##suppression de la valeur max du sous arbre gauche
+                                self.sad = aux.sad
                         else:
-                            y = self.sag.supprimerMAX()
-                            if self.sag.val == y:
-                                self.sag = None
-                            self.val = y
+                            if self.sad is None:
+                                if self.sag is None:
+                                    return True
+                                else:
+                                    aux = self.sag
+                                    self.sag = None
+                                    self.val = aux.val
+                                    self.sag = aux.sag
+                            ##suppression de la valeur max du sous arbre gauche
+                            else:
+                                y = self.sag.supprimerMAX()
+                                if self.sag.val == y:
+                                    self.sag = None
+                                self.val = y
 
     ##retourne vrai si l'élément x est dans l'arbre binaire de recherche courant
     def estPresent(self,x):
@@ -128,4 +131,3 @@ class ABR:
     ##redefinition de la fonction print de python en utilisant la fonction afficher()
     def __str__(self):
         return self.afficher()
-

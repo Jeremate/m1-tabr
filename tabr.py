@@ -6,10 +6,6 @@ import random
 import time
 import os
 
-# TODO JK :
-# - faire les tests
-# - ajouter au menu la fonction ABRversTABR
-
 class OBJ:
     """
     Classe OBJ représentant chaque case de TABR.
@@ -139,9 +135,9 @@ class TABR:
             if x >= obj.debut and x <= obj.fin:
                 if obj.abr.estPresent(x) == True :
                     obj.abr.supprimer(x)
-                    res="Valeur "+str(x)+" supprimé"
+                    res="Valeur "+str(x)+" supprimée"
                 else:
-                    res = "x non présent dans l'ABR"
+                    res = str(x) + " non présent dans l'ABR"
         return res
 
     ## fusion de deux cases du TABR courant les elements de la case i+1
@@ -170,11 +166,12 @@ class TABR:
     def ABRversTABR(self, A):
         """Renvoie un TABR à partir de l'ABR courant"""
         TABR.tab = []
-        abr_str = A.afficher()
+        abr_str = A.afficher() # récupération de l'abr à transformer en format string
         list_val = abr_str.split(':')
         list_val.sort(key=int) # tri par ordre croissant
 
         k = 0
+        # vérification du nombre d'intervalles (≤ nombre de valeurs de l'ABR)
         while k < 1 or k > len(list_val):
             k = raw_input("Saisir le nombre d'intervalles : ")
             if k.isdigit():
@@ -206,8 +203,9 @@ class TABR:
                 deb = int(next(val for val in list_val if int(val) > borne_prec))
             # print deb, borne
             obj = OBJ(deb, borne)
-            for val in [val for val in list_val if int(val) >= deb and int(val) <= borne]:
-                obj.abr.inserer(int(val))
+            for val in list_val:
+                if int(val) >= deb and int(val) <= borne:
+                    obj.abr.inserer(int(val))
             TABR.tab.append(obj)
 
             borne_prec = borne # mémorisation de la borne précédente
@@ -215,11 +213,11 @@ class TABR:
         # cas particuluer de la dernière borne (=max de l'ABR)
         deb = int(next(val for val in list_val if int(val) > borne_prec))
         fin = int(list_val[len(list_val)-1])
-        print "Intervalle " + str(k)
-        print deb, fin
+        print "\t- Intervalle " + str(k) + " : " + str(fin)
         obj = OBJ(deb, fin)
-        for val in [val for val in list_val if int(val) >= deb]:
-            obj.abr.inserer(int(val))
+        for val in list_val:
+            if int(val) >= deb:
+                obj.abr.inserer(int(val))
         TABR.tab.append(obj)
 
     
@@ -287,3 +285,41 @@ T.supprimer(9)
 T.supprimer(14)
 T.supprimer(11)
 print T
+# T.lireFichier("fichier.txt")
+# print("lecture fichier :\n\n",T)
+# print("vérification tabr : ",T.verification())
+
+A.inserer(9)
+A.inserer(6)
+A.inserer(3)
+A.inserer(7)
+A.inserer(12)
+print A
+T.ABRversTABR(A)
+print("vérification tabr : ",T.verification())
+# print T
+#T.fusionTABR(2)
+#print("verification fusion :\n",T)
+#print(T.supprimerEntier(2))
+#print("vérification suppression :\n",T)
+#T.tabrAleatoire(3,50)
+#print("tabr aléatoire :\n\n",T)
+#print("vérification tabr :\n\n",T.verification())
+#print(T)
+#A = T.TABRversABR()
+#print(A)
+#
+#
+#T.ecrireFichier("","exportABR.txt")
+#del T
+#T = TABR()
+#print(T)
+#T = TABR()
+#T.tabrAleatoire(5, 11)
+#print T
+print T.supprimer(3)
+print T
+
+del A
+del T
+
