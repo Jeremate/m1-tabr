@@ -76,13 +76,14 @@ class TABR:
 
     ## création d'un TABR aléatoire
     ## n le nombre de case du TABR
-    ## m le nombre fin de l'interval TABR[n]
+    ## m le nombre fin de l'intervalle TABR[n]
     def tabrAleatoire(self,n,m):
-        ## permet de crée les intervals debut|fin de chaque case
-        b = random.sample(range(2,m-1),(n-1)*2)## retourne un ensemble d'element de taille (n-1)*1 comprit entre les éléments 2 et m-1
+        ## permet de créer les intervalles debut|fin de chaque case
+        b = random.sample(range(2,m-1),(n-1)*2)## retourne un ensemble d'elements de taille (n-1)*1 compris entre les éléments 2 et m-1
         b.append(1)
         b.append(m)
         b.sort()
+        TABR.tab=[]
         for i in range(0,len(b)-1):
             if i%2 == 0:
                 debut = b[i]
@@ -120,7 +121,7 @@ class TABR:
             res = res + i.afficherOBJ() +"\n"
         return res    
 
-    ## insère x dans le TABR si un interval debut|fin le permet
+    ## insère x dans le TABR si un intervalle debut|fin le permet
     def inserer(self,x):
         res = False
         for obj in TABR.tab:
@@ -130,7 +131,7 @@ class TABR:
 
     ## supprime x dans le TABR si il existe
     def supprimer(self,x):
-        res = "x impossible dans les intervalles debut/fin"
+        res = "Valeur " + str(x) + " impossible dans les intervalles debut/fin"
         for obj in TABR.tab:
             if x >= obj.debut and x <= obj.fin:
                 if obj.abr.estPresent(x) == True :
@@ -146,7 +147,7 @@ class TABR:
         if i < len(TABR.tab):
             str_abr = TABR.tab[i+1].abr.afficher()
             elem = str_abr.split(':')
-            TABR.tab[i].fin = TABR.tab[i+1].fin ## mise à jour de l'interval
+            TABR.tab[i].fin = TABR.tab[i+1].fin ## mise à jour de l'intervalle
             for valeur in elem: ## insertion des élément i+1 dans i
                 TABR.tab[i].abr.inserer(int(valeur))
             TABR.tab.pop(i+1) ## suppression de l'objet en case i+1
@@ -172,7 +173,7 @@ class TABR:
 
         k = 0
         # vérification du nombre d'intervalles (≤ nombre de valeurs de l'ABR)
-        while k < 1 or k > len(list_val):
+        while k <= 0 or k > len(list_val):
             k = raw_input("Saisir le nombre d'intervalles : ")
             if k.isdigit():
                 k = int(k)
@@ -180,35 +181,36 @@ class TABR:
                 k = 0
 
         print "Renseigner les bornes max de chaque intervalle."
-        for i in range(1, k):
-            borne = 0
-            borne_prec = borne
-            # vérfication de la saisie de la borne
-            while borne < 1 or borne < borne_prec:
-                borne = raw_input("\t- Intervalle " + str(i) + " : ")
-                if borne.isdigit():
-                    borne = int(borne)
-                    # la borne supérieure doit être inférieure au max de l'ABR et supérieure au min
-                    # la borne supérieure de l'intervalle courant doit laisser au moins une valeur pour les prochains intervalles
-                    if borne < int(list_val[0]) or borne > int(list_val[len(list_val)-1]) or k-i > len([val for val in list_val if int(val) > borne]):
+        if k > 1:
+            for i in range(1, k):
+                borne = 0
+                borne_prec = borne
+                # vérfication de la saisie de la borne
+                while borne < 1 or borne < borne_prec:
+                    borne = raw_input("\t- Intervalle " + str(i) + " : ")
+                    if borne.isdigit():
+                        borne = int(borne)
+                        # la borne supérieure doit être inférieure au max de l'ABR et supérieure au min
+                        # la borne supérieure de l'intervalle courant doit laisser au moins une valeur pour les prochains intervalles
+                        if borne < int(list_val[0]) or borne > int(list_val[len(list_val)-1]) or k-i > len([val for val in list_val if int(val) > borne]):
+                            print "Borne invalide"
+                            borne = 0
+                    else:
                         print "Borne invalide"
                         borne = 0
+                # cas particulier de la première borne (=min de l'ABR)
+                if (i == 1):
+                    deb = int(list_val[0])
                 else:
-                    print "Borne invalide"
-                    borne = 0
-            # cas particulier de la première borne (=min de l'ABR)
-            if (i == 1):
-                deb = int(list_val[0])
-            else:
-                deb = int(next(val for val in list_val if int(val) > borne_prec))
-            # print deb, borne
-            obj = OBJ(deb, borne)
-            for val in list_val:
-                if int(val) >= deb and int(val) <= borne:
-                    obj.abr.inserer(int(val))
-            TABR.tab.append(obj)
+                    deb = int(next(val for val in list_val if int(val) > borne_prec))
+                # print deb, borne
+                obj = OBJ(deb, borne)
+                for val in list_val:
+                    if int(val) >= deb and int(val) <= borne:
+                        obj.abr.inserer(int(val))
+                TABR.tab.append(obj)
 
-            borne_prec = borne # mémorisation de la borne précédente
+                borne_prec = borne # mémorisation de la borne précédente
          
         # cas particuluer de la dernière borne (=max de l'ABR)
         deb = int(next(val for val in list_val if int(val) > borne_prec))
@@ -231,9 +233,9 @@ class TABR:
         TABR.tab = []
 
 
-A = abr.ABR()
-T = TABR()
-T.lireFichier("fichier.txt")
+# A = abr.ABR()
+# T = TABR()
+# T.lireFichier("fichier.txt")
 ##print T
 ##T.fusionTABR(0)
 ##print T
@@ -280,23 +282,23 @@ T.lireFichier("fichier.txt")
 ##T.tabrAleatoire(10,10 )
 ##print T
 ##del T
-T.inserer(1)
-T.supprimer(9)
-T.supprimer(14)
-T.supprimer(11)
-print T
+# T.inserer(1)
+# T.supprimer(9)
+# T.supprimer(14)
+# T.supprimer(11)
+# print T
 # T.lireFichier("fichier.txt")
 # print("lecture fichier :\n\n",T)
 # print("vérification tabr : ",T.verification())
 
-A.inserer(9)
-A.inserer(6)
-A.inserer(3)
-A.inserer(7)
-A.inserer(12)
-print A
-T.ABRversTABR(A)
-print("vérification tabr : ",T.verification())
+# A.inserer(9)
+# A.inserer(6)
+# A.inserer(3)
+# A.inserer(7)
+# A.inserer(12)
+# print A
+# T.ABRversTABR(A)
+# print("vérification tabr : ",T.verification())
 # print T
 #T.fusionTABR(2)
 #print("verification fusion :\n",T)
@@ -317,9 +319,9 @@ print("vérification tabr : ",T.verification())
 #T = TABR()
 #T.tabrAleatoire(5, 11)
 #print T
-print T.supprimer(3)
-print T
+# print T.supprimer(3)
+# print T
 
-del A
-del T
+# del A
+# del T
 
