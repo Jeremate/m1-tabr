@@ -161,6 +161,7 @@ class TABR:
                 elem = elem[:len(elem)]
                 for val in elem:
                     A.inserer(val)
+        print A
         return A
 
     def ABRversTABR(self, A):
